@@ -27,10 +27,13 @@ function ProjectCard({ project }: { project: Project }) {
         </div>
       </div>
 
-      <div className="stackList" aria-label={`${project.title} technology stack`}>
-        {project.techStack.map((item) => (
-          <span key={item}>{item}</span>
-        ))}
+      <div className="toolsUsed" aria-labelledby={`${project.slug}-tools`}>
+        <h4 id={`${project.slug}-tools`}>Tools used</h4>
+        <div className="stackList">
+          {project.techStack.map((item) => (
+            <span key={item}>{item}</span>
+          ))}
+        </div>
       </div>
 
       <div className="projectDetails">

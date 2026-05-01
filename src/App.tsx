@@ -1,5 +1,10 @@
 import { useState } from "react";
+import bankingCloudSecurityImage from "./assets/banking-cloud-security.png";
 import { projects, type Challenge, type Project } from "./data/projects";
+
+const projectImages: Partial<Record<string, string>> = {
+  "deployment-infra-bank": bankingCloudSecurityImage,
+};
 
 function ChallengeBlock({ challenge }: { challenge: Challenge }) {
   return (
@@ -28,6 +33,7 @@ function ProjectCard({
 }) {
   const detailId = `${project.slug}-details`;
   const primaryImpact = project.impact[0];
+  const projectImage = projectImages[project.slug];
 
   return (
     <article
@@ -41,6 +47,16 @@ function ProjectCard({
           <p>{project.overview}</p>
         </div>
       </div>
+
+      {projectImage ? (
+        <div className="projectImageFrame">
+          <img
+            alt={`${project.title} visual`}
+            className="projectImage"
+            src={projectImage}
+          />
+        </div>
+      ) : null}
 
       <div className="projectSummary">
         <div className="toolsUsed" aria-labelledby={`${project.slug}-tools`}>

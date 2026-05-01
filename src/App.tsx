@@ -1,9 +1,13 @@
 import { useState } from "react";
 import bankingCloudSecurityImage from "./assets/banking-cloud-security.png";
+import sapbwCrossAccountMigrationImage from "./assets/sapbw-cross-account-migration.png";
+import universityDrReplicationImage from "./assets/university-dr-replication.png";
 import { projects, type Challenge, type Project } from "./data/projects";
 
 const projectImages: Partial<Record<string, string>> = {
   "deployment-infra-bank": bankingCloudSecurityImage,
+  "disaster-recovery-repository-unitersity": universityDrReplicationImage,
+  "sapbw-migration": sapbwCrossAccountMigrationImage,
 };
 
 function ChallengeBlock({ challenge }: { challenge: Challenge }) {

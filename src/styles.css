@@ -229,18 +229,37 @@ li {
 }
 
 .projectImageFrame {
-  aspect-ratio: 16 / 7;
+  aspect-ratio: 16 / 5;
   background: var(--surface-raised);
   border: 1px solid rgba(115, 215, 202, 0.18);
   border-radius: 8px;
   margin-top: 22px;
+  max-width: 720px;
   overflow: hidden;
+  position: relative;
+}
+
+.projectImageFrame::after {
+  background:
+    linear-gradient(
+      90deg,
+      var(--surface) 0%,
+      rgba(24, 32, 28, 0) 20%,
+      rgba(24, 32, 28, 0) 76%,
+      var(--surface) 100%
+    ),
+    linear-gradient(180deg, rgba(24, 32, 28, 0) 42%, var(--surface) 100%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
 }
 
 .projectImage {
   display: block;
   height: 100%;
   object-fit: cover;
+  opacity: 0.76;
   width: 100%;
 }
 

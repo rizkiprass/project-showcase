@@ -14,7 +14,7 @@ The delivery focused on building a secure, scalable, and auditable environment w
 - Amazon EC2
 - Elastic Load Balancing
 - Amazon CloudWatch
-- SIEM integration
+- Terraform
 
 ## Challenges & Solutions
 

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { projects, type Challenge, type Project } from "./data/projects";
 
 function ChallengeBlock({ challenge }: { challenge: Challenge }) {
@@ -16,57 +17,95 @@ function ChallengeBlock({ challenge }: { challenge: Challenge }) {
   );
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({
+  project,
+  isExpanded,
+  onToggle,
+}: {
+  project: Project;
+  isExpanded: boolean;
+  onToggle: () => void;
+}) {
+  const detailId = `${project.slug}-details`;
+  const primaryImpact = project.impact[0];
+
   return (
-    <article className="projectCard" id={project.slug}>
+    <article
+      className={`projectCard${isExpanded ? " isExpanded" : ""}`}
+      id={project.slug}
+    >
       <div className="projectIntro">
         <div>
-          <span className="eyebrow">Project</span>
+          <span className="eyebrow">Project case study</span>
           <h3>{project.title}</h3>
           <p>{project.overview}</p>
         </div>
       </div>
 
-      <div className="toolsUsed" aria-labelledby={`${project.slug}-tools`}>
-        <h4 id={`${project.slug}-tools`}>Tools used</h4>
-        <div className="stackList">
-          {project.techStack.map((item) => (
-            <span key={item}>{item}</span>
-          ))}
-        </div>
-      </div>
-
-      <div className="projectDetails">
-        <section>
-          <h4>Challenges and solutions</h4>
-          {project.challenges.map((challenge) => (
-            <ChallengeBlock key={challenge.title} challenge={challenge} />
-          ))}
-        </section>
-
-        <section>
-          <h4>Architecture</h4>
-          <p>{project.architecture}</p>
-        </section>
-
-        <section>
-          <h4>Impact</h4>
-          <ul className="impactList">
-            {project.impact.map((item) => (
-              <li key={item}>{item}</li>
+      <div className="projectSummary">
+        <div className="toolsUsed" aria-labelledby={`${project.slug}-tools`}>
+          <h4 id={`${project.slug}-tools`}>Tools used</h4>
+          <div className="stackList">
+            {project.techStack.map((item) => (
+              <span key={item}>{item}</span>
             ))}
-          </ul>
-        </section>
+          </div>
+        </div>
+
+        {primaryImpact ? (
+          <div className="impactPreview">
+            <h4>Impact highlight</h4>
+            <p>{primaryImpact}</p>
+          </div>
+        ) : null}
       </div>
 
-      {project.links.length > 0 ? (
-        <div className="linkRow">
-          {project.links.map((link) => (
-            <a key={link.url} href={link.url} rel="noreferrer" target="_blank">
-              {link.label}
-              <span aria-hidden="true">-&gt;</span>
-            </a>
-          ))}
+      <div className="projectActions">
+        <button
+          aria-controls={detailId}
+          aria-expanded={isExpanded}
+          className="readMoreButton"
+          type="button"
+          onClick={onToggle}
+        >
+          {isExpanded ? "Read less" : "Read more"}
+          <span aria-hidden="true">{isExpanded ? "-" : "+"}</span>
+        </button>
+      </div>
+
+      {isExpanded ? (
+        <div className="projectDetails" id={detailId}>
+          <section>
+            <h4>Challenges and solutions</h4>
+            {project.challenges.map((challenge) => (
+              <ChallengeBlock key={challenge.title} challenge={challenge} />
+            ))}
+          </section>
+
+          <section>
+            <h4>Architecture</h4>
+            <p>{project.architecture}</p>
+          </section>
+
+          <section>
+            <h4>Impact</h4>
+            <ul className="impactList">
+              {project.impact.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+
+          {project.links.length > 0 ? (
+            <div className="linkRow">
+              {project.links.map((link) => (
+                <a key={link.url} href={link.url} rel="noreferrer" target="_blank">
+                  {link.label}
+                  <span aria-hidden="true">-&gt;</span>
+                </a>
+              ))}
+            </div>
+          ) : null}
         </div>
       ) : null}
     </article>
@@ -74,6 +113,7 @@ function ProjectCard({ project }: { project: Project }) {
 }
 
 function App() {
+  const [expandedProject, setExpandedProject] = useState<string | null>(null);
   const projectCount = projects.length;
 
   return (
@@ -109,11 +149,24 @@ function App() {
         <section className="sectionHeader" id="projects">
           <span className="eyebrow">Projects</span>
           <h2>Projects I have worked on</h2>
+          <p>
+            Compact project summaries with deeper technical detail available on
+            demand.
+          </p>
         </section>
 
         <div className="projectGrid">
           {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+            <ProjectCard
+              key={project.slug}
+              project={project}
+              isExpanded={expandedProject === project.slug}
+              onToggle={() =>
+                setExpandedProject((current) =>
+                  current === project.slug ? null : project.slug,
+                )
+              }
+            />
           ))}
         </div>
       </main>

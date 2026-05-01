@@ -69,6 +69,57 @@ When asked to polish or improve a project Markdown file:
 5. After editing, briefly summarize what changed and note any missing details
    that would make the write-up stronger.
 
+## Project Visual Generation Rules
+
+When adding a new public project card or when the user asks to create a project
+image:
+
+- Use the `imagegen` skill and the built-in image generation tool by default.
+- Generate one project-specific visual that matches the project description,
+  architecture, tech stack, and delivery theme.
+- Do not invent logos, customer names, brand marks, metrics, or unsupported
+  services. Avoid readable text inside generated images.
+- Save the selected image under `src/assets/` with a clear kebab-case filename,
+  such as `sapbw-cross-account-migration.png`.
+- Leave the original generated file in the Codex generated-images directory.
+  Copy the selected image into the repo instead of moving or deleting it.
+- Import the asset in `src/App.tsx` and add it to the `projectImages` mapping
+  using the Markdown filename slug.
+- Reuse the existing `.projectImageFrame` and `.projectImage` styling unless
+  the user explicitly asks for a layout change.
+- Run `npm run build` after adding or changing project visuals.
+- If taking screenshots for visual QA, do not commit screenshot files unless the
+  user explicitly asks for them.
+
+Use this image prompt style for new project visuals:
+
+```text
+Use case: stylized-concept
+Asset type: website project section image for a technical portfolio case study
+Primary request: Generate a professional technical portfolio image that
+represents <project goal and domain>.
+Scene/backdrop: <project-specific infrastructure scene, migration flow,
+security controls, replication path, or cloud architecture>. Use abstract
+platform cues only; no real vendor logos.
+Subject: <main technical theme: migration, disaster recovery, cloud security,
+deployment, monitoring, automation, or data platform>.
+Style/medium: polished semi-realistic 3D editorial illustration, refined dark
+cloud/security portfolio aesthetic, not cartoonish.
+Composition/framing: wide 16:9 landscape, centered subject with generous
+negative space and clean edges, suitable for a compact project card/banner that
+will be cropped to a short horizontal frame.
+Lighting/mood: calm, precise, trustworthy, enterprise-grade, soft ambient glow.
+Color palette: deep near-black green #111614, dark surface #18201c, muted
+slate-gray, soft teal accents #73d7ca, subtle warm amber #f08a4b used sparingly.
+Avoid bright white backgrounds, saturated blue/purple gradients, beige/brown
+dominance, or colors that fight the dark green UI.
+Materials/textures: matte glass, brushed metal, subtle data-flow light trails,
+restrained reflections, cloud glow where relevant.
+Text: none.
+Constraints: no readable text, no logos, no customer names, no people, no brand
+marks, no watermark, no UI screenshots.
+```
+
 ## Examples of Safe Improvements
 
 - Change vague wording like "worked on AWS setup" to "deployed AWS
